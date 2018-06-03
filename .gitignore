@@ -1,0 +1,9 @@
+/vendor/
+/components/
+/node_modules/
+/public/css/
+/public/fonts/
+/public/js/vendor
+/logs/
+/templates/cache/*
+composer.lock

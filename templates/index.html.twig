@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+{% block title %}USERS TABLE - CRUD SLIM_FRAMEWORK v.3{% endblock %}
+{% block container %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>UsersTable</h2>
+                    <a href="/add" class="btn btn-primary btn-lg btn-block">New user</a>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            All Users
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Фамилия</th>
+                                        <th>Имя</th>
+                                        <th>Отчество</th>
+                                        <th>Телефон</th>
+                                        <th>email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for user in users %}
+
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ user.surname|e }}</td>
+                                        <td>{{ user.name|e }}</td>
+                                        <td>{{ user.patronymic|e }}</td>
+                                        <td>{{ user.tel|e }}</td>
+                                        <td>{{ user.email|e }}</td>
+                                        <td>
+                                            <a href="/view/{{ user.id }}" alt="view" class="btn btn-info">View</a>
+                                            <a href="/edit/{{ user.id }}" alt="edit" class="btn btn-warning">Edit</a>
+                                            <a href="/delete/{{ user.id }}" alt="delete" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

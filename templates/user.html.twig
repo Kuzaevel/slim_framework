@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+{% block title %} User {% endblock %}
+{% block container %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ title }}
+                        </div>
+                        <div class="panel-body">
+                            <form {% if add %} action="add" {% elseif edit %} action="../edit" {% endif %} method="post" >
+                                <div class="form-group">
+                                    <label for="surname" > Фамилия </label>
+                                    <input type="text" class="form-control" name="surname" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.surname }}" {% endif %} >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name"> Имя </label>
+                                    <input type="text" class="form-control" name="name" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.name }}" {% endif %}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="patronymic"> Отчество </label>
+                                    <input type="text" class="form-control" name="patronymic" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.patronymic }}" {% endif %}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tel"> Телефон </label>
+                                    <input type="tel" class="form-control" name="tel" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.tel }}" {% endif %}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email"> Email </label>
+                                    <input type="email" class="form-control" name="email" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.email }}" {% endif %}>
+                                </div>
+                                {% if add %}
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Add user</button>
+                                    {% elseif edit %}
+                                        <input type="hidden" class="form-control" name="id" value="{{ user.id }}">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Edit user</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
