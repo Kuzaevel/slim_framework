@@ -6,4 +6,6 @@
 /public/js/vendor
 /logs/
 /templates/cache/*
+/templates/_cache/
 composer.lock
+/.idea/*.*
