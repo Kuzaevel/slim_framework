@@ -11,29 +11,45 @@
                         </div>
                         <div class="panel-body">
                             <form {% if add %} action="add" {% elseif edit %} action="../edit" {% endif %} method="post" >
-                                <div class="form-group">
+
+                                <div class="form-group {% if has_error('surname') %} has-error {% endif %}" >
                                     <label for="surname" > Фамилия </label>
-                                    <input type="text" class="form-control" name="surname" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.surname }}" {% endif %} >
+                                    <input type="text" class="form-control" name="surname" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.surname }}" {% endif %}  placeholder="Фамилия" value="{{ val('surname') }}">
+                                    {% if has_error('surname') %}
+                                        <span for="surname" generated="true" class="help-block" style="display: inline;">Заполните поле</span>
+                                    {% endif %}
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group {% if has_error('name') %} has-error {% endif %}">
                                     <label for="name"> Имя </label>
-                                    <input type="text" class="form-control" name="name" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.name }}" {% endif %}>
+                                    <input type="text" class="form-control" name="name" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.name }}" {% endif %} placeholder="Имя" value="{{ val('name') }}">
+                                    {% if has_error('name') %}
+                                        <span for="name" generated="true" class="help-block" style="display: inline;">Заполните поле</span>
+                                    {% endif %}
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group {% if has_error('patronymic') %} has-error {% endif %}">
                                     <label for="patronymic"> Отчество </label>
-                                    <input type="text" class="form-control" name="patronymic" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.patronymic }}" {% endif %}>
+                                    <input type="text" class="form-control" name="patronymic" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.patronymic }}" {% endif %} placeholder="Отчество" value="{{ val('patronymic') }}">
+                                    {% if has_error('patronymic') %}
+                                        <span for="patronymic" generated="true" class="help-block" style="display: inline;">Заполните поле</span>
+                                    {% endif %}
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group {% if has_error('tel') %} has-error {% endif %}">
                                     <label for="tel"> Телефон </label>
-                                    <input type="tel" class="form-control" name="tel" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.tel }}" {% endif %}>
+                                    <input type="tel" class="form-control" name="tel" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.tel }}" {% endif %} placeholder="Телефон" value="{{ val('tel') }}">
+                                    {% if has_error('tel') %}
+                                        <span for="tel" generated="true" class="help-block" style="display: inline;">Telephone number is invalid</span>
+                                    {% endif %}
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group {% if has_error('email') %} has-error {% endif %}">
                                     <label for="email"> Email </label>
-                                    <input type="email" class="form-control" name="email" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.email }}" {% endif %}>
+                                    <input type="email" class="form-control" name="email" {% if view %} disabled {% endif %}  {% if not add %} value="{{ user.email }}" {% endif %} placeholder="Email" value="{{ val('email') }}">
+                                    {% if has_error('email') %}
+                                        <span for="email" generated="true" class="help-block" style="display: inline;">Email address is invalid</span>
+                                    {% endif %}
                                 </div>
                                 {% if add %}
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">Add user</button>

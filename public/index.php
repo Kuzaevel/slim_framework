@@ -1,6 +1,7 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Respect\Validation\Validator as V;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -11,10 +12,20 @@ require_once '../src/db.php';
 $app = new \Slim\App(array("settings" => $settings['settings']));
 $container = $app->getContainer();
 //$container['view'] = new \Slim\Views\PhpRenderer("../templates/");
+
+$container['validator'] = function () {
+    return new Awurth\SlimValidation\Validator();
+};
+
 $container['view'] = function ($container) {
     $templates =  '../templates/';
     $cache = realpath('../templates/cache');
     $view = new Slim\Views\Twig($templates, compact('cache'));
+
+    $view->addExtension(
+        new Awurth\SlimValidation\ValidatorExtension($container['validator'])
+    );
+
     return $view;
 };
 
@@ -76,7 +87,20 @@ $app->post( '/add', function (Request $request, Response $response) {
 
     $data = $request->getParsedBody();
 
-    $sql = "INSERT INTO users (name, surname, patronymic, tel, email) 
+    if ($request->isPost()) {
+        $this->validator->validate($request,
+            array(
+                'name' => V::notBlank(),
+                'surname' => V::notBlank(),
+                'patronymic' => V::notBlank(),
+                'tel' => V::phone(),
+                'email' => V::email()
+            )
+        );
+
+        if ($this->validator->isValid()) {
+            // Add user in database
+            $sql = "INSERT INTO users (name, surname, patronymic, tel, email) 
             VALUES (
                 '$data[name]', 
                 '$data[surname]', 
@@ -84,19 +108,25 @@ $app->post( '/add', function (Request $request, Response $response) {
                 '$data[tel]', 
                 '$data[email]')";
 
-    //todo verification and redirect back to form
+            try {
+                $db = new db();
+                $db = $db->connect();
+                $db->exec($sql);
+                $db = null;
+            } catch (PDOException $e) {
+                echo '{"error": {"text": ' . $e->getMessage() . '}}';
+            };
 
-    try{
-        $db = new db();
-        $db = $db->connect();
-        $db->exec($sql);
-        $db = null;
-    } catch(PDOException $e){
-        echo '{"error": {"text": '.$e->getMessage().'}}';
-    };
+            return $response->withRedirect('/');
+        }
+    }
 
-//    return $app->redirect('/');
-    return $response->withRedirect('/');
+    $params = array(
+        'add'=>true,
+        'title'=>'Add User'
+    );
+
+    return $this->view->render($response, 'user.html.twig', $params);
 });
 
 $app->get('/delete/{id}', function (Request $request, Response $response, $args) {

@@ -8,4 +8,4 @@
 /templates/cache/*
 /templates/_cache/
 composer.lock
-/.idea/*.*
+/.idea/

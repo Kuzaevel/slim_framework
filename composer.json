@@ -26,6 +26,7 @@
 		"components/bootstrap" : "3.*",
         "jswhetstone/twig-extension" : "dev-master",
         "slim/twig-view": "^2.4",
-        "slim/php-view": "^2.2"
+        "slim/php-view": "^2.2",
+        "awurth/slim-validation": "^3.0"
     }
 }
